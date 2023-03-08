@@ -13,6 +13,9 @@ class HomeController extends Controller
     {
         $p = new Personne();
         $p->name = "Yassine";
+
         return view("home", ['person' => $p]);
     }
+
+
 }

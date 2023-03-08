@@ -9,7 +9,12 @@
 </head>
 
 <body>
-    <h1>bienvenue <?= $person->name ?> dans cette formation de laravel </h1>
+    <h1>bienvenue
+        @isset($person->name)
+            {{ $person->name }}
+        @endisset
+        dans cette formation de laravel
+    </h1>
 </body>
 
 </html>
