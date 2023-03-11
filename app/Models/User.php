@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'photo',
+        'activated',
+        'admin_id',
     ];
 
     /**
@@ -41,4 +45,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Posts of the user
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    // one admin can create many members: 
+    public function members()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    // Many users created belong to ONE admin :
+    public function admin()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
