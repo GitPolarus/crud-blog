@@ -55,6 +55,8 @@ class PostController extends Controller
     public function edit(string $id)
     {
         //
+        $post = Post::find($id);
+        return view('post.editform', ['post' => $post]);
     }
 
     /**
@@ -63,6 +65,13 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         //
+
+        $oldPost = Post::find($id);
+        $oldPost->title = $request->title;
+        $oldPost->content = $request->content;
+        $oldPost->save();
+        return redirect("/listPost");
+
     }
 
     /**
@@ -71,5 +80,8 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         //
+        $post = Post::find($id);
+        $post->delete();
+        return redirect("/listPost");
     }
 }

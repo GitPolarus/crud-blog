@@ -10,14 +10,33 @@
 
 <body>
     <h1>List of posts</h1>
-    <ul>
+
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Action</th>
+        </tr>
         @foreach ($postlist as $post)
-            <li>
-                <strong>{{ $post->title }}</strong>
-                <em>{{ $post->content }}</em>
-            </li>
+            <tr>
+                <td>{{ $post->title }}</td>
+                <td>{{ $post->content }}</td>
+                <td>
+                    {{-- <a href="/deletePost/{{ $post->id }}">Delete</a> --}}
+                    <a href="/editPost/{{ $post->id }}">Edit</a>
+                    <form action="/deletePost/{{ $post->id }}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
         @endforeach
-    </ul>
+    </table>
+
+
+
+    <a href="/addPost">Ajouter un nouveau Post</a>
 </body>
 
 </html>
