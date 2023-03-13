@@ -49,7 +49,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
-
+            if (Auth::user()->role == "Admin") {
+                return redirect()->route('view.admin.home');
+            }
             return redirect()->route('view.home');
         }
 

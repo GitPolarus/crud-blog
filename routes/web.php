@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
@@ -22,3 +23,5 @@ Route::get('/register', [AuthController::class, 'registerview'])->name("view.reg
 Route::post('/register', [AuthController::class, 'register'])->name("register");
 Route::post('/login', [AuthController::class, 'login'])->name("login");
 Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
+Route::get('/admin', [AdminController::class, 'index'])->name("view.admin.home");
+Route::resource("posts", PostController::class);

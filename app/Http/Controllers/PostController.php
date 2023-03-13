@@ -13,6 +13,8 @@ class PostController extends Controller
     public function index()
     {
         //
+        $posts = Post::all();
+        return view('admin.post.list', ['postList' => $posts]);
     }
 
     /**
@@ -21,6 +23,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        return view('admin.post.create');
     }
 
     /**
