@@ -52,9 +52,15 @@
                                         <a class="btn btn-sm btn-secondary" href="#" title="Details" role="button">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-danger" href="#" title="Delete" role="button">
+                                        
+
+                                        <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-sm btn-danger" title="Delete" role="button">
                                             <i class="bi bi-trash"></i>
-                                        </a>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
 
