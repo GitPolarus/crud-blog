@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -31,7 +32,32 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string|max:100',
+            'content' => 'required|string',
+        ]);
+        $data['publish_date'] = now();
+        $data['user_id'] = Auth::user()->id;
+
+
+        /* 
+        recuperation du fichier
+        */
+
+        if ($request->hasFile('photo')) {
+            $fileName = $request->file('photo')->getClientOriginalName();
+            $path = 'storage/' . $request->file('photo')->storeAs('images', $fileName, 'public');
+            $data['photo'] = $path;
+        }
+
+        $post = Post::create($data);
+
+
+        if (isset($post)) {
+            return redirect()->route('posts.index')->with('success', 'Post created successfully');
+        }
+        return redirect()->back()->with('error', 'Error in Post Creation')->withInput();
+
     }
 
     /**
@@ -45,17 +71,51 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return view('admin.post.edit', ['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        $data = $request->validate([
+            'title' => 'required|string|max:100',
+            'content' => 'required|string',
+        ]);
+
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->published = $request->published == null ? false : true;
+
+
+        if ($post->published) {
+            $post->publish_date = now();
+        } else {
+            $post->publish_date = null;
+        }
+
+        /* 
+        recuperation du fichier
+        */
+
+        if ($request->hasFile('photo')) {
+            $fileName = $request->file('photo')->getClientOriginalName();
+            $path = 'storage/' . $request->file('photo')->storeAs('images', $fileName, 'public');
+            $post->photo = $path;
+        }
+        $post->user_id = Auth::user()->id;
+        // dd($post);
+
+        if ($post->save()) {
+            return redirect()->route('posts.index')->with('success', 'Post Updated successfully');
+        }
+        return redirect()->back()->with('error', 'Error in Post Updating')->withInput();
     }
 
     /**

@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string("title", 100);
             $table->longText("content");
             $table->text("photo")->nullable();
-            $table->date("publish_date")->default(now());
+            $table->date("publish_date")->nullable();
             $table->boolean("published")->default(true);
             $table->foreignId("user_id")->constrained();
             $table->timestamps();
