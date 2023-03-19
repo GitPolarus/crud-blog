@@ -8,8 +8,8 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">Post List</h4>
             <div class="d-flex gap-4">
-                <form class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" aria-describedby="helpId">
+                <form class="input-group" action="{{ route('posts.index') }}" method="get">
+                    <input type="search" name="search" class="form-control" placeholder="Search" value="{{ request()->input('search') }}"  aria-describedby="helpId">
                     <button class="btn btn-md btn-warning" title="Search" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -37,7 +37,7 @@
                             <tr>
                                 <td scope="row">{{ $post->id }}</td>
                                 <td scope="row">{{ $post->title }}</td>
-                                <td scope="row">{{ $post->author->name }}</td>
+                                <td scope="row">{{ $post->user_id}}</td>
                                 <td scope="row"> <img
                                         src="{{ $post->photo == null ? asset('storage/images/default.png') : $post->photo }}"
                                         alt="{{ $post->title }}" width="50px" height="50px" /></td>
