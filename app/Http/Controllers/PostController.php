@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 class PostController extends Controller
 {
     /**
@@ -13,8 +13,17 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-        $posts = Post::all();
+        
+        if(request()->has('search')){
+            $posts = DB::table('posts')
+            ->where('title', 'Like', '%' . request()->input('search') . '%')
+            ->get();
+            // dd($posts);
+            
+        }else{
+            $posts = Post::all();
+        }
+       
         return view('admin.post.list', ['postList' => $posts]);
     }
 
@@ -63,9 +72,23 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
-    {
-        //
+    public function show($title)
+    {   
+        // $post = Post::find($title);
+        //  if (request()->has('search')) {
+        //     $post->where('title', 'Like', '%' . request()->input('search') . '%');
+        // }
+        // $titles = DB::table('users')->pluck('title');
+
+
+
+        // $permissions = Permission::latest();
+        // if (request()->has('search')) {
+        //     $permissions->where('name', 'Like', '%' . request()->input('search') . '%');
+        // }
+        // $permissions = $permissions->paginate(5);
+        // return view('admin.permission.index',compact('permissions'))
+        //     ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -126,6 +149,5 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->delete();
         return redirect()->back()->with('success', "Post Deleted");
-
     }
 }
