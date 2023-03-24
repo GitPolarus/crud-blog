@@ -37,7 +37,7 @@
                             <tr>
                                 <td scope="row">{{ $post->id }}</td>
                                 <td scope="row">{{ $post->title }}</td>
-                                <td scope="row">{{ $post->user_id}}</td>
+                                <td scope="row">{{ $post->author->name}}</td>
                                 <td scope="row"> <img
                                         src="{{ $post->photo == null ? asset('storage/images/default.png') : $post->photo }}"
                                         alt="{{ $post->title }}" width="50px" height="50px" /></td>
@@ -49,7 +49,7 @@
                                             role="button">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-secondary" href="#" title="Details" role="button">
+                                        <a class="btn btn-sm btn-secondary" href="{{ route('posts.show', ['post' => $post->id]) }}" title="Details" role="button">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         
