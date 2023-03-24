@@ -15,11 +15,8 @@ class PostController extends Controller
     {
         
         if(request()->has('search')){
-            $posts = DB::table('posts')
-            ->where('title', 'Like', '%' . request()->input('search') . '%')
-            ->get();
+            $posts = Post::where('title', 'Like', '%' . request()->input('search') . '%')->get();
             // dd($posts);
-            
         }else{
             $posts = Post::all();
         }
@@ -72,23 +69,11 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($title)
+    public function show($id)
     {   
-        // $post = Post::find($title);
-        //  if (request()->has('search')) {
-        //     $post->where('title', 'Like', '%' . request()->input('search') . '%');
-        // }
-        // $titles = DB::table('users')->pluck('title');
-
-
-
-        // $permissions = Permission::latest();
-        // if (request()->has('search')) {
-        //     $permissions->where('name', 'Like', '%' . request()->input('search') . '%');
-        // }
-        // $permissions = $permissions->paginate(5);
-        // return view('admin.permission.index',compact('permissions'))
-        //     ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.post.show', [
+            'post' => Post::findOrFail($id)
+        ]);
     }
 
     /**

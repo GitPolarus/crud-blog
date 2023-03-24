@@ -25,4 +25,3 @@ Route::post('/login', [AuthController::class, 'login'])->name("login");
 Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
 Route::get('/admin', [AdminController::class, 'index'])->name("view.admin.home");
 Route::resource("posts", PostController::class);
-// Route::get('/posts/search/',PostController::class);
