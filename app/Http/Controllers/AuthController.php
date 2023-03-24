@@ -47,6 +47,8 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+        $validatedData['activated'] = 1;
+
         if (Auth::attempt($validatedData)) {
             $request->session()->regenerate();
             if (Auth::user()->role == "Admin") {
