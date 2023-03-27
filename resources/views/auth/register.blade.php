@@ -28,6 +28,7 @@
                 <input type="password" class="form-control " id="password_confirmation" name="password_confirmation">
                 <label for="password_confirmation">Confirm Your Password</label>
             </div>
+
             <button class="btn btn-md btn-primary" type="submit">Sign Up</button>
 
         </form>

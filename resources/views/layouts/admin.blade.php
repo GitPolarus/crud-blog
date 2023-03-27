@@ -37,6 +37,9 @@
                 @if (session('error'))
                     <x-alert type="danger" :message="session('error')" class="my-2" />
                 @endif
+                @if (session('info'))
+                    <x-alert type="warning" :message="session('info')" class="my-2" />
+                @endif
                 @yield('content')
             </div>
 
