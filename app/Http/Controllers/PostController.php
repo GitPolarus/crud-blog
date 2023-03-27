@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class PostController extends Controller
 {
     /**
@@ -12,14 +13,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        
-        if(request()->has('search')){
-            $posts = Post::where('title', 'Like', '%' . request()->input('search') . '%')->get();
+
+        if (request()->has('search')) {
+            $posts = Post::where('title', 'Like', '%' . request()->input('search') . '%')->paginate(10);
             // dd($posts);
-        }else{
-            $posts = Post::all();
+        } else {
+            $posts = Post::paginate(10);
         }
-       
+
         return view('admin.post.list', ['postList' => $posts]);
     }
 
@@ -69,7 +70,7 @@ class PostController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-    {   
+    {
         return view('admin.post.show', [
             'post' => Post::findOrFail($id)
         ]);

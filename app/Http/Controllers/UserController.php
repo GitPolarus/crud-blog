@@ -14,13 +14,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        
-        if(request()->has('search')){
-            $users = User::where('name', 'Like', '%' . request()->input('search') . '%')->get();
-        }else{
-            $users = User::all();
+
+        if (request()->has('search')) {
+            $users = User::where('name', 'Like', '%' . request()->input('search') . '%')->paginate(5);
+        } else {
+            $users = User::paginate(5);
         }
-       
+
         return view('admin.user.list', ['userList' => $users]);
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
 
 
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -45,7 +45,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|string',
-            
+
         ]);
         $data['admin_id'] = Auth::user()->id;
         $data['role'] = $request->role;
@@ -60,7 +60,7 @@ class UserController extends Controller
             $path = 'storage/' . $request->file('profile')->storeAs('profiles', $fileName, 'public');
             $data['profile'] = $path;
         }
-        
+
 
         $user = User::create($data);
 
@@ -68,7 +68,7 @@ class UserController extends Controller
         if (isset($user)) {
             return redirect()->route('users.index')->with('success', 'User created successfully');
         }
-        
+
         return redirect()->back()->with('error', 'Error in User Creation')->withInput();
 
     }
@@ -81,7 +81,7 @@ class UserController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-    {   
+    {
         return view('admin.user.show', [
             'user' => User::findOrFail($id)
         ]);
@@ -119,7 +119,7 @@ class UserController extends Controller
             $user->updated_at = null;
         }
 
-        
+
         $user->admin_id = Auth::user()->id;
 
         /* 
@@ -145,9 +145,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        if ($user->posts->count()>0) {
+        if ($user->posts->count() > 0) {
             return redirect()->back()->with('info', "You can't delete the user as he has posts available");
-        }else {
+        } else {
             $user->delete();
         }
         return redirect()->back()->with('success', "User banned");

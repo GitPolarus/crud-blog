@@ -3,13 +3,14 @@
 @section('title', 'Users List')
 
 @section('content')
-<h2 class="text-danger text-center">Users</h2>
+    <h2 class="text-danger text-center">Users</h2>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">Users List</h4>
             <div class="d-flex gap-4">
                 <form class="input-group" action="{{ route('users.index') }}" method="get">
-                    <input type="search" name="search" class="form-control" placeholder="Search" value="{{ request()->input('search') }}"  aria-describedby="helpId">
+                    <input type="search" name="search" class="form-control" placeholder="Search"
+                        value="{{ request()->input('search') }}" aria-describedby="helpId">
                     <button class="btn btn-md btn-warning" title="Search" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -38,7 +39,7 @@
                             <tr>
                                 <td scope="row">{{ $user->id }}</td>
                                 <td scope="row">{{ $user->name }}</td>
-                                <td scope="row">{{ $user->email}}</td>
+                                <td scope="row">{{ $user->email }}</td>
                                 <td scope="row"> <img
                                         src="{{ $user->profile == null ? asset('storage/images/default.png') : asset($user->profile) }}"
                                         alt="{{ $user->name }}" width="50px" height="50px" /></td>
@@ -52,16 +53,18 @@
                                             role="button">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-secondary" href="{{ route('users.show', ['user' => $user->id]) }}" title="Details" role="button">
+                                        <a class="btn btn-sm btn-secondary"
+                                            href="{{ route('users.show', ['user' => $user->id]) }}" title="Details"
+                                            role="button">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        
+
 
                                         <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-sm btn-danger" title="Delete" role="button">
-                                            <i class="bi bi-trash"></i>
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
                                     </div>
@@ -75,6 +78,9 @@
                 </table>
             </div>
 
+        </div>
+        <div class="card-footer">
+            {{ $userList->links() }}
         </div>
     </div>
 @endsection
