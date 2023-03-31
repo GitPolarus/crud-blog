@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -12,7 +13,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::all();
+        return view('admin.comment.list', ['commentList' => $comments]);
     }
 
     /**
@@ -21,6 +23,7 @@ class CommentController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -28,7 +31,18 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $data['user_id'] = Auth::user()->id;
+
+        $comment = Comment::create($data);
+
+        if (isset($comment)) {
+            return redirect()->route('postslist.index')->with('success', 'Comment posted successfully');
+        }
+        return redirect()->back()->with('error', 'Error in Comment Creation')->withInput();
     }
 
     /**
