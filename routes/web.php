@@ -9,6 +9,7 @@ use App\Http\Controllers\AllpostsController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,10 +26,23 @@ Route::get('/login', [AuthController::class, 'loginview'])->name("view.login");
 Route::get('/register', [AuthController::class, 'registerview'])->name("view.register");
 Route::post('/register', [AuthController::class, 'register'])->name("register");
 Route::post('/login', [AuthController::class, 'login'])->name("login");
-Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
-Route::get('/admin', [AdminController::class, 'index'])->name("view.admin.home");
-Route::resource("posts", PostController::class);
-Route::resource("users", UserController::class);
 Route::resource("postslist", AllpostsController::class);
-Route::resource("comments", CommentController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name("logout");
+
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name("view.admin.home");
+    Route::resource("posts", PostController::class);
+    Route::resource("users", UserController::class);
+    Route::resource("comments", CommentController::class);
+});
 // Route::get("/postslist", [PostsListController::class, 'index'])->name("postslist");
+
+Route::middleware(['auth', 'member'])->group(function () {
+    Route::resource("posts", PostController::class);
+    Route::resource("users", UserController::class);
+    Route::resource("comments", CommentController::class);
+
+});

@@ -29,8 +29,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Photo</th>
                             <th scope="col">Activated</th>
-                            <th scope="col">Creation date</th>
-                            <th scope="col">Update date</th>
+                            <th scope="col">Role</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -44,8 +43,7 @@
                                         src="{{ $user->profile == null ? asset('storage/images/default.png') : asset($user->profile) }}"
                                         alt="{{ $user->name }}" width="50px" height="50px" /></td>
                                 <td scope="row">{{ $user->activated ? 'Activated' : 'Not Activated' }}</td>
-                                <td scope="row">{{ $user->created_at }}</td>
-                                <td scope="row">{{ $user->updated_at }}</td>
+                                <td scope="row">{{ $user->role }}</td>
                                 <td scope="row">
                                     <div class="input-group">
                                         <a class="btn btn-sm btn-primary"
