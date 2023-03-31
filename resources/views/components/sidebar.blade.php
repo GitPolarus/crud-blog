@@ -108,7 +108,7 @@
         <x-adminnavitem routeName="view.admin.home" title="Home" icon="home" />
         <x-adminnavitem routeName="view.home" title="Dashboard" icon="speedometer2" />
         <x-adminnavitem routeName="posts.index" title="Posts" icon="table" />
-        <x-adminnavitem routeName="view.home" title="Comments" icon="grid" />
+        <x-adminnavitem routeName="comments.index" title="Comments" icon="grid" />
         <x-adminnavitem routeName="users.index" title="Users" icon="people-circle" />
 
 
